@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Html2Canvas</title>
+    <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script> -->
+    <script type="text/javascript" src="html2canvas.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        function appendCanvas(mainCanvas) {
+            console.log(mainCanvas);
+            html2canvas(mainCanvas, {
+                onrendered: function(canvas) {
+                    console.log("onrendered > canvas >>", canvas);
+                    document.querySelector('#canvasPreview').replaceChildren(canvas);
+
+                    var link = document.createElement("a");
+                    document.body.appendChild(link);
+                    link.download = "html_image.png";
+                    link.href = canvas.toDataURL("image/png");
+                    link.target = '_blank';
+                    link.click();
+                }
+            }).then(function(canvas) {
+                console.log("Then > canvas >>", canvas);
+                document.querySelector('#canvasPreview').replaceChildren(canvas);
+
+                var link = document.createElement("a");
+                document.body.appendChild(link);
+                link.download = "html_image.png";
+                link.href = canvas.toDataURL("image/png");
+                link.target = '_blank';
+                link.click();
+            });
+        }
+
+        $(".appendCanvas").click(function() {
+            appendCanvas($("#mainCanvas")[0]);
+        });
+        $(".appendCanvas2").click(function() {
+            appendCanvas($("#mainCanvas2")[0]);
+        });
+
+        $(".changeBGC").click(function() {
+            var newColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+            $("#mainCanvas").css("backgroundColor", newColor);
+        });
+        $(".removeBGC").click(function() {
+            $("#mainCanvas").css("background", "none"); // transparent
+        });
+    });
+    </script>
+    <style type="text/css">
+    div.editable {
+        position: absolute;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        border: none;
+        transform-origin: center;
+        box-sizing: content-box;
+    }
+
+    .box {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="mainCanvas2" class="box">
+        <p>This is a sample text</p>
+        <p><b>This is another Sample Text</b></p>
+        <p><i>This is italics</i></p>
+    </div>
+
+    <div id="mainCanvas" class="box" style="border-radius: 25px;height: 776px;width: 1260px;/*left: -4700px;*/top: 0px;border: 0px;position: relative;">
+        <div id="image-94b7b827-dc43-4a36-8276-8e1829b6ec3b" class="editable" style="background: transparent; display: block; height: 543px; left: 450px; top: 200px; width: 724px; border-style: none; z-index: 1; position:absolute;"><img src="trans_img.png" draggable="false" data-src="trans_img.png"></div>
+        <div id="shape-2ca891a2-4e49-41a2-93bd-88b89c7378fd" class="editable rectangle shape" style="background: rgb(187, 187, 187); display: block; height: 90px; left: 35px; top: 35px; width: 90px; border-style: none; z-index: 2;"></div>
+        <div id="shape-69e82daa-6f5e-4d12-9298-d167ace81131" class="editable rectangle shape" style="background: rgb(187, 187, 187); display: block; height: 90px; left: 35px; bottom: 35px; width: 90px; border-style: none; z-index: 5;"></div>
+        <div id="shape-2fdf3e6f-1540-4331-a044-85accedf3696" class="editable rectangle shape" style="background: rgb(187, 187, 187); display: block; height: 90px; right: 35px; bottom: 35px; width: 90px; border-style: none; z-index: 4;"></div>
+        <div id="shape-7fde20c1-7e7a-432c-a0cd-44ddfd539232" class="editable rectangle shape" style="background: rgb(187, 187, 187); display: block; height: 90px; right: 35px; top: 35px; width: 90px; border-style: none; z-index: 3;"></div>
+    </div>
+
+    <div>
+        <button class="appendCanvas">Append Generated Canvas</button>
+        <button class="appendCanvas2">Append Generated Canvas 2</button>
+        <button class="changeBGC">Change background color</button>
+        <button class="removeBGC">Remove background color</button>
+    </div>
+    <hr />
+    <hr />
+    <div id="canvasPreview" class="box" style="background-color: black;"></div>
+</body>
+
+</html>
